@@ -192,24 +192,31 @@ function FloatingGeometry() {
 }
 
 export function Scene3D() {
+  const [mounted, setMounted] = useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   return (
     <SceneErrorBoundary>
-      <div className="fixed inset-0 -z-10">
-        <Canvas
-          camera={{ position: [0, 0, 8], fov: 75 }}
-          dpr={[1, 2]}
-          gl={{ antialias: true, alpha: true }}
-        >
-          <color attach="background" args={["#0a0f14"]} />
-          <fog attach="fog" args={["#0a0f14", 8, 30]} />
-          <ambientLight intensity={0.3} />
-          <pointLight position={[15, 15, 15]} intensity={1.5} color="#5eead4" />
-          <pointLight position={[-15, -15, -15]} intensity={1} color="#0d9488" />
-          <pointLight position={[10, -10, 10]} intensity={0.8} color="#14b8a6" />
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-          <ParticleField />
-          <FloatingGeometry />
-        </Canvas>
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[#0a0f14] bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(13,148,136,0.18),rgba(255,255,255,0))]">
+        {mounted && (
+          <Canvas
+            camera={{ position: [0, 0, 8], fov: 75 }}
+            dpr={[1, 2]}
+            gl={{ antialias: true, alpha: true }}
+          >
+            <fog attach="fog" args={["#0a0f14", 8, 30]} />
+            <ambientLight intensity={0.3} />
+            <pointLight position={[15, 15, 15]} intensity={1.5} color="#5eead4" />
+            <pointLight position={[-15, -15, -15]} intensity={1} color="#0d9488" />
+            <pointLight position={[10, -10, 10]} intensity={0.8} color="#14b8a6" />
+            <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
+            <ParticleField />
+            <FloatingGeometry />
+          </Canvas>
+        )}
       </div>
     </SceneErrorBoundary>
   )
